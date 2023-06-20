@@ -12,8 +12,6 @@ pipeline {
                 git 'https://github.com/vishaljudoka/fastapi_devops.git'
             }
         }
-
-
         stage('Build Image') {
             steps {
                 script {
@@ -23,16 +21,25 @@ pipeline {
                 }
             }
         }
-
-
-
         stage('Test - Run Docker Container on Jenkins node') {
            steps {
 
                 bat "docker run -d --name ${JOB_NAME} -p 8000:8000 ${img}"
           }
         }
+<<<<<<< Updated upstream
 
+=======
+        stage('Push To DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry( 'https://registry.hub.docker.com ', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+>>>>>>> Stashed changes
 
     }
 
