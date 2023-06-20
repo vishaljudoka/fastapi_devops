@@ -1,6 +1,6 @@
 def buildApp()
 	{
-	echo 'Building the applic]ation1'
+	echo 'Building the application1'
 	}
 def testApp()
 	{
@@ -9,7 +9,7 @@ def testApp()
 
 def deployApp()
 	{
-	echo 'Deploying the applic]ation1'
+	echo 'Deploying the application to Production'
 	echo ' Deploying vesrion ${params.version} '
 	}
 
