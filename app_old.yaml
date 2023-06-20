@@ -1,0 +1,47 @@
+# kubernetes-fastapi LoadBalancer Service
+# Enables the pods in a deployment to be accessible from outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: vksh-api-service
+  namespace: vksh
+spec:
+  selector:
+    app: vksh-api
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
+
+---
+# kf-api Deployment
+# Defines the deployment of the app running in a pod on any worker node
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vksh-api
+  namespace: vksh
+  labels:
+    app: vksh-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vksh-api
+  template:
+    metadata:
+      labels:
+        app: vksh-api
+    spec:
+      containers:
+        - name: vksh-api
+          image: southamerica-east1-docker.pkg.dev/vksh-04030613/vksh-docker/vksh-api:version1.0
+          ports:
+            - containerPort: 8000
+          imagePullPolicy: Always
+          resources:
+            # You must specify requests for CPU to autoscale
+            # based on CPU utilization
+            requests:
+              cpu: "250m"

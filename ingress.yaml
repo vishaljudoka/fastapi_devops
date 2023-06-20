@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: vksh-api-ingress
+    namespace: vksh
+spec:
+  defaultBackend:
+    service:
+     name: vksh-api-service
+     port:
+       number: 8181
