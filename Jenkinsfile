@@ -1,74 +1,38 @@
-def gv
-
+def img
 pipeline {
-
+    environment {
+        registry = "vksh/python-jenkins" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
+        registryCredential = 'docker-hub-login'
+        dockerImage = ''
+    }
     agent any
-	environment
-		{
-		server_cred=credentials('servercred')
-		}
-		parameters {
-			string ( name="JenkinPipeline-Declarative" , defaultvalue= "JenkinPipeline-Declarative 1.0" , description="JenkinPipeline-Declarative" )
-			choice ( name="version" , choices : [1.1.0 , 1.1.1 , 1.1.2 ], description="version build number" )
-			booleanParam ( name = "executeTests" , defaultvalue= true , description="execute test" )
-	stages
-    {
-		stage ("init") {
-            steps
-            {
-                script
-				{
-				gv= load "script.groovy"
-				}
+    stages {
+        stage('checkout') {
+            steps {
+                git 'https://github.com/vishaljudoka/fastapi_devops.git'
             }
-
-		}
-        stage ("Build") {
-            steps
-            {
-                script
-				{
-				gv.buildApp()
-				}
-
-				withCredentials([usernamePassword(credentialsId: 'servercred', passwordVariable: 'passw', usernameVariable: 'user')])
-				{
-						echo "${user}"
-						echo "${passw}"
-						}
-            }
-
-         }
-
-        stage ("Test"){
-
-			when {
-				expression {
-				params.executeTests
-				}
-
-				}
-            steps
-            {
-                script
-				{
-				gv.testApp()
-				}
-            }
-
         }
 
-        stage ("deploy"){
 
-            steps
-             {
-               script
-				{
-				gv.deployApp()
-				}
-             }
+        stage('Build Image') {
+            steps {
+                script {
+                    img = registry + ":${env.BUILD_ID}"
+                    println ("${img}")
+                    dockerImage = docker.build("${img}")
+                }
+            }
+        }
 
-    }
+
+
+        stage('Test - Run Docker Container on Jenkins node') {
+           steps {
+
+                bat "docker run -d --name ${JOB_NAME} -p 8000:8000 ${img}"
+          }
+        }
+
 
     }
 
