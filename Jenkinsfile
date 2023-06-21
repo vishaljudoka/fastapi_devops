@@ -60,7 +60,10 @@ pipeline
 		        {
                     steps
                         {
-                            bat 'docker ps -a'
+                            echo "${JOB_NAME}"
+                            /*bat returnStdout: true, script: "docker stop ${JOB_NAME}"
+                            bat returnStdout: true, script: "docker rm  ${JOB_NAME}"
+                            bat returnStdout: true, script: "docker image prune -a --force"*/
                         }
                 }
 		    stage('Deploy on Test Environment')
@@ -106,5 +109,25 @@ pipeline
 			        		    }
 			        	}
                 }
+
         }
+                post
+                {
+
+                    always {
+                        // Let's wipe out the workspace before we finish!
+                            echo "complete"
+                            }
+                    success {
+                        gv.sendEmail("Successful");
+                            }
+                    unstable {
+                        gv.sendEmail("Unstable");
+                    }
+                    failure {
+                        gv.sendEmail("Failed");
+                    }
+                }
+
+
     }
