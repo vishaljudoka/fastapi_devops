@@ -38,7 +38,7 @@ def sendEmail(status) {
     mail(
             to: "vishaljudoka@yahoo.co.in",
             subject: "Build $BUILD_NUMBER - " + status + " (${currentBuild.fullDisplayName})",
-            body: "Changes:\n " + getChangeString() + "\n\n Check console output at: $BUILD_URL/console" + "\n")
+            body: "Changes:\n " +  "\n\n Check console output at: $BUILD_URL/console" + "\n")
 }
 
 return this
