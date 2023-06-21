@@ -119,19 +119,20 @@ pipeline
                             echo "complete"
                             }
                     success {
-                    script
+                         echo "success"
+                         /*
+                         script
 			        	        {
-                        gv.sendEmail("Successful"); }
+                        gv.sendEmail("Successful"); } */
                             }
                     unstable {
-                        script
-			        	        {
-                        gv.sendEmail("unstable"); }
+                        echo "unstable"
                     }
                     failure {
-                        script
+                         echo "failure"
+                        /*script
 			        	        {
-                        gv.sendEmail("failure"); };
+                        gv.sendEmail("failure"); } */
                     }
                 }
 
