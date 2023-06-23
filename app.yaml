@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
         - name: vksh-api
-          image: southamerica-east1-docker.pkg.dev/vksh-04030613/vksh-docker/vksh-api:version1.0
+          image: registry.hub.docker.com/vishaljudoka/vksh:latest
           ports:
             - containerPort: 8000
           imagePullPolicy: Always

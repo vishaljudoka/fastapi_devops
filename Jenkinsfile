@@ -7,6 +7,11 @@ pipeline
 	agent any
 	    environment
 	        {
+	            CLOUDSDK_CORE_PROJECT='vksh-04030613'
+	            LOCATION='southamerica-east1-b'
+                CLIENT_EMAIL='jenkins-gcloud@vksh-04030613.iam.gserviceaccount.com'
+                GCLOUD_CREDS=credentials('gcloud-creds')
+                CLUSTER_NAME='vksh-cluster'
 		        hubcred='docker-hub-login'
 		        hubtag="vishaljudoka/vksh"
 		        Image=''
@@ -66,6 +71,8 @@ pipeline
                             bat returnStdout: true, script: "docker image prune -a --force"*/
                         }
                 }
+
+
 		    stage('Deploy on Test Environment')
 		        {
 		    	    when
@@ -99,15 +106,23 @@ pipeline
                                 }
     		    	    }
                 }
-            stage('Deploy to Production')
+
+           stage('getting Prod K8s Details')
+                {
+                    steps
+                    {
+                        bat "gcloud version"
+                        bat "gcloud auth activate-service-account --key-file=$GCLOUD_CREDS"
+                        bat 'gcloud compute zones list'
+
+                    }
+                }
+            stage('Deploy to K8s Production')
 		        {
-			        steps
-			            {
-			        	    script
-			        	        {
-			        		        gv.deployApp()
-			        		    }
-			        	}
+			        steps{
+                    echo 'Deployment started ...'
+                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUD_CREDS, verifyDeployments: true])
+                    echo "Deployment Finished ..."
                 }
 
         }
