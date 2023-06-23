@@ -124,6 +124,7 @@ pipeline
                     step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUD_CREDS, verifyDeployments: true])
                     echo "Deployment Finished ..."
                 }
+                }
 
         }
                 post
