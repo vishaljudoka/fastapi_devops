@@ -11,6 +11,7 @@ pipeline
 	            LOCATION='southamerica-east1-b'
                 CLIENT_EMAIL='jenkins-gcloud@vksh-04030613.iam.gserviceaccount.com'
                 GCLOUD_CREDS=credentials('gcloud-creds')
+                GCLOUDS_CRED_GKE=credentials('vksh-04030613-key')
                 CLUSTER_NAME='vksh-cluster'
 		        hubcred='docker-hub-login'
 		        hubtag="vishaljudoka/vksh"
@@ -121,7 +122,7 @@ pipeline
 		        {
 			        steps{
                     echo 'Deployment started ...'
-                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUD_CREDS, verifyDeployments: true])
+                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: true])
                     echo "Deployment Finished ..."
                 }
                 }
