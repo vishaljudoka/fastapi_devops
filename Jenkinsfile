@@ -11,7 +11,7 @@ pipeline
 	            LOCATION='southamerica-east1-b'
                 CLIENT_EMAIL='jenkins-gcloud@vksh-04030613.iam.gserviceaccount.com'
                 GCLOUD_CREDS=credentials('gcloud-creds')
-                GCLOUDS_CRED_GKE=credentials('vksh-04030613-key')
+                GCLOUDS_CRED_GKE='vksh-04030613-key'
                 CLUSTER_NAME='vksh-cluster'
 		        hubcred='docker-hub-login'
 		        hubtag="vishaljudoka/vksh"
