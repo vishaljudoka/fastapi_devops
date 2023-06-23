@@ -87,7 +87,7 @@ pipeline
                     //exposes the results through the Jenkins interface.
                     //The post section’s always condition that contains this junit step ensures that the step is
                     //always executed at the completion of the Test stage, regardless of the stage’s outcome.
-                        junit 'test-reports/results.xml'
+                        junit 'Test/results.xml'
                                 }
                         }
                 }
