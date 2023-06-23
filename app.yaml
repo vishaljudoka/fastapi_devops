@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
         - name: vksh-api
-          image: vishaljudoka/vksh:latest
+          image: vishaljudoka/vksh:35
           ports:
             - containerPort: 8000
           imagePullPolicy: Always
