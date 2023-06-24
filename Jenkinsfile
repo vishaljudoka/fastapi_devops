@@ -54,11 +54,15 @@ pipeline
 		    stage ('Stop previous running container on Test')
 		        {
                     steps
-                        {
+                        {  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+
+
                             echo "Old ${JOB_NAME}  going to be deleted"
-                            bat returnStdout: false, script: "docker stop $JOB_NAME"
-                            bat returnStdout: false, script: "docker rm  $JOB_NAME"
-                            bat returnStdout: false, script: "docker image prune -a --force"
+                            bat returnStdout: true, script: "docker stop $JOB_NAME"
+                            bat returnStdout: true, script: "docker rm  $JOB_NAME"
+                            bat returnStdout: true, script: "docker image prune -a --force"
+                            }
+
                         }
                 }
 
