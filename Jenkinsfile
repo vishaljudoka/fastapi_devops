@@ -72,7 +72,8 @@ pipeline
 		    	        {
 		    	            script
 		    	                {
-		    		               img = hubtag + ":${env.BUILD_ID}"
+		    		               //img = hubtag + ":${env.BUILD_ID}"
+		    		               img = hubtag + ":latest"
 		    		               println ("${img}")
 		    		               Image = docker.build("${img}")
 		    		            }

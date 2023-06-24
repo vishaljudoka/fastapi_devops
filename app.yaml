@@ -25,7 +25,7 @@ metadata:
   labels:
     app: vksh-api
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: vksh-api
@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
         - name: vksh-api
-          image: vishaljudoka/vksh:41
+          image: vishaljudoka/vksh:latest
           ports:
             - containerPort: 8000
           imagePullPolicy: Always
