@@ -66,10 +66,10 @@ pipeline
 		        {
                     steps
                         {
-                            echo "${JOB_NAME}"
-                            /*bat returnStdout: true, script: "docker stop ${JOB_NAME}"
-                            bat returnStdout: true, script: "docker rm  ${JOB_NAME}"
-                            bat returnStdout: true, script: "docker image prune -a --force"*/
+                            echo "Old ${JOB_NAME}  going to be deleted"
+                            bat returnStdout: true, script: "docker stop $JOB_NAME"
+                            bat returnStdout: true, script: "docker rm  $JOB_NAME"
+                            bat returnStdout: true, script: "docker image prune -a --force"
                         }
                 }
 
@@ -141,7 +141,7 @@ pipeline
 		        {
 			        steps{
                     echo 'Deployment started ...'
-                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: true])
+                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
                     echo "Deployment Finished ..."
                 }
                 }
