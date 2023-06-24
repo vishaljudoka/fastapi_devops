@@ -49,18 +49,7 @@ pipeline
 			        }
 			    }
 
-		    stage('Build Image')
-		        {
-		    	    steps
-		    	        {
-		    	            script
-		    	                {
-		    		               img = hubtag + ":${env.BUILD_ID}"
-		    		               println ("${img}")
-		    		               Image = docker.build("${img}")
-		    		            }
-                        }
-                }
+
 
 		    stage ('Stop previous running container on Test')
 		        {
@@ -70,6 +59,19 @@ pipeline
                             bat returnStdout: true, script: "docker stop $JOB_NAME"
                             bat returnStdout: true, script: "docker rm  $JOB_NAME"
                             bat returnStdout: true, script: "docker image prune -a --force"
+                        }
+                }
+
+           stage('Build Image')
+		        {
+		    	    steps
+		    	        {
+		    	            script
+		    	                {
+		    		               img = hubtag + ":${env.BUILD_ID}"
+		    		               println ("${img}")
+		    		               Image = docker.build("${img}")
+		    		            }
                         }
                 }
 
